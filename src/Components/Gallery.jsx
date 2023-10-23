@@ -1,4 +1,4 @@
-import { Box, Image, Img, SimpleGrid, Text, useColorModeValue } from "@chakra-ui/react";
+import { Box, Flex, Image, Img, SimpleGrid, Text, useColorModeValue } from "@chakra-ui/react";
 import React, { useContext, useState } from "react";
 import ProgressiveImage from "react-progressive-graceful-image";
 import { QueryContext } from "../Context/context";
@@ -8,6 +8,7 @@ import ImgModal from "./ImgModal";
 
 const Gallery = () => {
     const [open, setOpen] = useState(false);
+    const [loaded, setLoaded] = useState(false);
     const [imgId, setImgId] = useState('');
     const context = useContext(QueryContext);
     const {query,data,totalImgs,moreImgs,querySearch} = context;
@@ -18,7 +19,7 @@ const Gallery = () => {
       setOpen(true);
       setImgId(id);
     }
-    
+    console.log(loaded)
 
   return (
     <div>
@@ -30,7 +31,8 @@ const Gallery = () => {
       <SimpleGrid columns={{ base: 2, md: 3, lg: 4 }} spacing={4} mb={20}>
         {data &&
           data.map((pic) => (
-            <Box onClick={()=>(onImgClick(pic.id))} key={pic.id}>
+            <Box onClick={()=>(onImgClick(pic.id))} key={pic.id}  _hover={{opacity:0.7}} transition={'all 1s'}>
+             
             <ProgressiveImage
               src={pic.urls.regular}
               placeholder={pic.urls.small_s3}
@@ -39,14 +41,26 @@ const Gallery = () => {
               key={pic.id}
               
             >
-              {(src, loading) => (
+              {(src, loading) => {
+                if(!loading){setLoaded(true)} else( setLoaded(false))
+                return (
                 <Image
                   style={{ filter: loading ? "blur(10px)" : "none" }}
                   src={src}
                   alt="an image"
+                  
+                 
+
                   />
-              )}
+                )
+              }}
             </ProgressiveImage>
+            {loaded && <Flex justifyContent={'space-between'} w={'full'}  position={'relative'}  p={4} color={useColorModeValue('gray','white')} alignItems={'flex-end'} bgColor={useColorModeValue('whiteAlpha.100','black')} border={useColorModeValue('1px solid gray','1px solid dark')} borderRadius={5} >
+                <Text>{pic.user.name}</Text>
+                <Text>{pic.likes} likes</Text>
+
+              </Flex>
+}
                   </Box>
           ))}
       </SimpleGrid>
