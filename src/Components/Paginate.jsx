@@ -22,7 +22,6 @@ console.log(page,query)
 
 
   useEffect(() => {
-    const handleScroll = () => {
       const scrollTop =
         document.documentElement.scrollTop || document.body.scrollTop;
       const scrollHeight =
@@ -35,12 +34,12 @@ console.log(page,query)
 
       // Display the pagination component when scrolled to the bottom
       setShowPagination(distanceFromBottom <= 0);
-    };
+  
   }, []);
 
     return (
-      <Flex justifyContent={'center'} p={5} >
-        <Pagination display={data||showPagination?true:"none"} current={currentPage} total={totalImgs} onChange={p=>onPageChange(p)} pageSize={10}/>
+      <Flex  justifyContent={'center'} alignItems={'center'} p={5} display={data?'flex':"none"}>
+        <Pagination  display={data?'block':"none"} current={currentPage} total={totalImgs} onChange={p=>onPageChange(p)} pageSize={10}/>
       </Flex>
 
     );
