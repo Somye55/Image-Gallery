@@ -45,9 +45,6 @@ const MenuLinks = () => {
       pt={[4, 4, 0, 0]}
       >
         <ModeToggle/>
-       <Link href="/">Home</Link>
-       <Link href="/">Products</Link>
-       <Link href="/">Downloads</Link>
       </Stack>
     );
   };
